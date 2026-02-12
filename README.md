@@ -67,6 +67,31 @@ When there is no suitable protein structure file, `fasta` files can be used to m
 python inference.py --A demo/D3INY1.fasta --B demo/P62593.fasta
 ```
 
+### Batch inference: one query protein vs a folder
+
+You can screen one query protein against all supported files in a folder and save interaction probabilities to a CSV file:
+
+```
+python inference_batch.py --query demo/P33895.pdb --targets demo --output results.csv
+```
+
+Options:
+
+- `--query`: Query protein file (`.pdb`/`.cif` or `.fasta`/`.fa`/`.faa`/`.fna`)
+- `--targets`: Folder containing target protein files
+- `--output`: Output CSV path. Default is `inference_batch.csv`
+- `--chain_query`: Chain ID for query structure files. Default is `first`
+- `--chain_targets`: Chain ID for target structure files. Default is `first`
+- `--model`: Model for structure inputs (`ProtT5` or `ESM-2+ac`). For FASTA query, `ESM-2+ac` is forced
+- `--device`: Either `cuda` or `cpu`
+
+Notes:
+
+- Query and target files must be the same modality:
+  - FASTA query requires all FASTA targets
+  - Structure query (`pdb`/`cif`) requires all structure targets
+- The output CSV contains columns: `query`, `target`, `probability`, `status`, `error`
+
 ### Visualization of inference process
 
 Please check the [notebook](https://github.com/ohuelab/SpatialPPIv2/blob/main/demo/example_visualize.ipynb).
